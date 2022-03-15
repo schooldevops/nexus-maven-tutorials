@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wiremock-pv-volume
+  namespace: queen
+  labels:
+    type: local
+    app: wiremock
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/volumes/wiremock"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wiremock-pv-claim
+  labels:
+    app: wiremock
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+
+-------
+apiVersion: v1
+kind: Service
+metadata:
+  name: wiremock
+  labels:
+    app: wiremock
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30080
+  selector:
+    app: wiremock
+
+-------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiremock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wiremock
+  template:
+    metadata:
+      labels:
+        app: wiremock
+    spec:
+      containers:
+        - name: wiremock
+          image: rodolpheche/wiremock
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /home/wiremock
+              name: wiremock-vol
+      volumes:
+        - name: wiremock-vol
+          persistentVolumeClaim:
+            claimName: wiremock-pv-claim

@@ -1,0 +1,19 @@
+# issue-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: issue-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nexus-service
+          servicePort: 80
+  - http:
+      paths:
+      - path: /admin
+        backend:
+          serviceName: nexus-service
+          servicePort: 80
