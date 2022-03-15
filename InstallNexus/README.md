@@ -186,3 +186,25 @@ http://localhost:32000
 ```
 kubectl exec nexus-23424234-xcsdf -n nexus -- cat /nexus-data/admin.password
 ```
+
+## Persistance Volume 연동한 배포 버젼
+
+### 1. Namespace 생성하기. 
+
+[NexusNamespace](01.NexusNamespace.yaml)
+
+### 2. Persistance Volume 생성하기. 
+
+[Persistance Volume](02.PersistanceVolume.yaml)
+
+### 3. Persistance Volume Claim 생성하기. 
+
+[Persistance Volume Claim](03.PersistanceVolumeClaim.yaml)
+
+### 4. Nexus Deployment (3.x버젼)
+
+[Nexus3x Deployment](05.Nexus3xDeployment.yaml)
+
+### 5. Nexus Service 오픈하기 (NodePort 이용버젼)
+
+[Nexus Service](06.NexusService.yaml)
