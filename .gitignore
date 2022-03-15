@@ -1,0 +1,5 @@
+/InstallNexus/ingress-nginx.yaml
+/InstallNexus/NexusIngress.yaml
+/InstallNexus/nginx-deploy.yml
+/InstallNexus/sample_pvc.yaml
+/InstallNexus/service.yaml
